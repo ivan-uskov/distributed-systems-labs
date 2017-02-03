@@ -1,1 +1,5 @@
-# distributed-systems-labs
+Note application
+
+to start
+ - cd frontend
+ - call run.sh
