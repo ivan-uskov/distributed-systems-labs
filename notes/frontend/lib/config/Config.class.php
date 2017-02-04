@@ -11,4 +11,8 @@ class Config
     public const DIR_SEPARATOR = '/';
     public const LOG_EXT = '.log';
     public const TEMPLATE_EXT  = '.jade';
+
+    public const SAVE_NOTE_URL = 'http://localhost:8080/save-note';
+    public const REDIS_HOST = 'localhost';
+    public const REDIS_PORT = 6479;
 }

@@ -16,7 +16,7 @@ module Config =
     [<Literal>]
     let SAVE_NOTE_ROUTE = "/save-note"
     [<Literal>]
-    let SLEEP_MILLISECONDS = 4000
+    let SLEEP_MILLISECONDS = 2000
 
 type Storage() =
     let redis = new RedisClient(Config.REDIS_HOST)

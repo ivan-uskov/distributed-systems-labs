@@ -2,6 +2,8 @@
 
 namespace Services;
 
+use Config\Config;
+
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
@@ -10,8 +12,6 @@ use Utils\ArrayUtils;
 
 class StorageService
 {
-    private const SAVE_NOTE_URL = 'http://localhost:8080/save-note';
-
     /**
      * @param string $noteText
      * @return string
@@ -20,7 +20,7 @@ class StorageService
     {
         $client = new Client();
         $response = $client->post(
-            self::SAVE_NOTE_URL,
+            Config::SAVE_NOTE_URL,
             [RequestOptions::JSON => ['text' => $noteText]]
         );
 
@@ -36,7 +36,16 @@ class StorageService
 
     public function get(string $id): ?Note
     {
-        $noteText = exec('redis-cli get ' . escapeshellarg($id));
+        if (class_exists('Redis'))
+        {
+            $redis = new \Redis(Config::REDIS_HOST, Config::REDIS_PORT);
+            $noteText = $redis->get($id);
+        }
+        else
+        {
+            $noteText = exec('redis-cli get ' . escapeshellarg($id));
+        }
+
         return !empty($noteText) ? new Note($noteText, $id) : null;
     }
 }
