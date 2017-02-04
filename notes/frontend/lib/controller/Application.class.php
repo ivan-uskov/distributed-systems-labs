@@ -3,7 +3,7 @@
 namespace Controller;
 
 use Web\Request;
-use \Utils\ArrayUtils;
+use Utils\ArrayUtils;
 
 class Application
 {

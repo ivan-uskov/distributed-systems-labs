@@ -2,8 +2,8 @@
 
 namespace View;
 
-use \Config\Config;
-use \Jade\Jade;
+use Config\Config;
+use Jade\Jade;
 
 class Renderer
 {

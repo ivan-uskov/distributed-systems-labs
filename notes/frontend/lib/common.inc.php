@@ -10,7 +10,6 @@ require_once 'utils/ArrayUtils.class.php';
 require_once 'utils/Logger.class.php';
 
 require_once 'web/Request.class.php';
-require_once 'web/Response.class.php';
 
 require_once 'controller/Router.class.php';
 require_once 'controller/Action.class.php';

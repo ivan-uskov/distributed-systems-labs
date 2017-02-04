@@ -2,7 +2,7 @@
 
 namespace Utils;
 
-use \Config\Config;
+use Config\Config;
 
 class Logger
 {

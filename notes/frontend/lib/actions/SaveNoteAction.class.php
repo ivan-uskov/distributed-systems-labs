@@ -2,7 +2,7 @@
 
 namespace Actions;
 
-use \Controller\Action;
+use Controller\Action;
 use Services\StorageService;
 use Config\Routing;
 use Web\Request;

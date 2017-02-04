@@ -2,7 +2,7 @@
 
 require_once '../lib/common.inc.php';
 
-use \Controller\Application;
+use Controller\Application;
 
 $app = new Application();
 $app->run();

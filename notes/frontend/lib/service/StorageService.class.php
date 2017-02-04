@@ -2,21 +2,40 @@
 
 namespace Services;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
+
 use Model\Note;
+use Utils\ArrayUtils;
 
 class StorageService
 {
+    private const SAVE_NOTE_URL = 'http://localhost:8080/save-note';
+
     /**
      * @param string $noteText
      * @return string
      */
     public function save(string $noteText): string
     {
-        return 'id';
+        $client = new Client();
+        $response = $client->post(
+            self::SAVE_NOTE_URL,
+            [RequestOptions::JSON => ['text' => $noteText]]
+        );
+
+        if ($response->getStatusCode() != 200)
+        {
+            return '';
+        }
+
+        $responseData = (array) json_decode((string) $response->getBody()->getContents(), true);
+
+        return (string) ArrayUtils::get($responseData, 'id');
     }
 
     public function get(string $id): ?Note
     {
-        return new Note("Hello");
+        return new Note("Hello", $id);
     }
 }
