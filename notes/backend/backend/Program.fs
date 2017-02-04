@@ -26,7 +26,7 @@ let saveNote request =
 
         note.id <- Guid.NewGuid().ToString()
 
-        note |> Notes.serialize |> OK
+        note.id |> sprintf "{\"id\":\"%s\"}" |> OK
     with
         | Failure msg -> BAD_REQUEST "Note text not specified"
         | _ -> BAD_REQUEST "Invalid data"
