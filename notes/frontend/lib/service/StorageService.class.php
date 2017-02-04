@@ -36,6 +36,7 @@ class StorageService
 
     public function get(string $id): ?Note
     {
-        return new Note("Hello", $id);
+        $noteText = exec('redis-cli get ' . escapeshellarg($id));
+        return !empty($noteText) ? new Note($noteText, $id) : null;
     }
 }

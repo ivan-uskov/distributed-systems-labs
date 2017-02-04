@@ -16,9 +16,18 @@ class Application
 
     public function run(): void
     {
-        $request = $this->buildRequest();
-        $action = $this->router->getAction($request);
-        $action->execute();
+        try
+        {
+            $request = $this->buildRequest();
+            $action = $this->router->getAction($request);
+            $action->execute();
+        }
+        catch (\Throwable $e)
+        {
+            echo "{$e->getMessage()}\n";
+            echo "{$e->getFile()} : {$e->getLine()}\n";
+            echo "{$e->getTraceAsString()}\n";
+        }
     }
 
     private function buildRequest(): Request
