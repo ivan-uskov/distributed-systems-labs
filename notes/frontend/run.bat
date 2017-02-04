@@ -4,4 +4,4 @@ IF not exist log (mkdir log)
 
 call composer install
 cd web
-php -S localhost:8080
+php -S localhost:8088
