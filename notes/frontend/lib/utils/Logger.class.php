@@ -11,6 +11,11 @@ class Logger
         self::log('debug', $message);
     }
 
+    public static function debugExport($var): void
+    {
+        self::log('debug', var_export($var, true));
+    }
+
     public static function log(string $fileName, ?string $message): void
     {
         file_put_contents(

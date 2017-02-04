@@ -1,9 +1,9 @@
 extends layout
 
 block content
-    form(action='/' method='post')
+    form(action= formAction, method='post')
         .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label.mdl-cell.mdl-cell--12-col
             label(class='mdl-textfield__label') Your Note
-            textarea(name='note').mdl-textfield__input
+            textarea(name='note_text').mdl-textfield__input
         .mdl-card__actions
             button.mdl-button.mdl-button--raised.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect Post

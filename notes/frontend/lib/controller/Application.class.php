@@ -2,7 +2,7 @@
 
 namespace Controller;
 
-use \Utils\Request;
+use Web\Request;
 use \Utils\ArrayUtils;
 
 class Application
@@ -28,6 +28,7 @@ class Application
 
         $request = new Request();
         $request->setUri($uri);
+        $request->setPostVars($_POST);
         return $request;
     }
 }
