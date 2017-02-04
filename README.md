@@ -6,6 +6,8 @@
  * php 7.1
  * composer
  * visual studio 2015
+ * redis on localhost:6379
+ * php7.1-redis extension
 
 ###Run###
  * cd backend
