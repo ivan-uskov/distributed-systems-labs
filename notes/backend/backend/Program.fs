@@ -6,16 +6,16 @@ open Suave.Operators
 open Suave.Successful
 open Suave.RequestErrors
 open Newtonsoft.Json
+open System
 
 module Notes =
-    type Note =
-        {
-            text : string
-            id   : string
-        }
+    type Note = { 
+        text : string 
+        mutable id : string
+    }
 
     let serialize = JsonConvert.SerializeObject
-    let deserialize s = JsonConvert.DeserializeObject<Note> s
+    let deserialize n = JsonConvert.DeserializeObject<Note> n
 
 let saveNote request = 
     try
@@ -24,14 +24,17 @@ let saveNote request =
         if note.text = null then
             failwith "Empty note"
 
+        note.id <- Guid.NewGuid().ToString()
+
         note |> Notes.serialize |> OK
     with
         | Failure msg -> BAD_REQUEST "Note text not specified"
         | _ -> BAD_REQUEST "Invalid data"
 
 let app : WebPart =
-  choose
-    [ POST >=> path "/save-note" >=> request saveNote ]
+    choose [
+        POST >=> path "/save-note" >=> request saveNote 
+    ]
 
 [<EntryPoint>]
 let main argv =
