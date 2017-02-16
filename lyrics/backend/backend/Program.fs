@@ -8,18 +8,44 @@ open Suave.RequestErrors
 open Newtonsoft.Json
 open System
 open ServiceStack.Redis
+open RabbitMQ.Client
+open System.Text
 
 module Config = 
     [<Literal>]
     let REDIS_HOST = "127.0.0.1:6379"
     [<Literal>]
+    let RABBIT_HOST = "localhost"
+    [<Literal>]
     let SAVE_LYRIC_ROUTE = "/save-lyric"
     [<Literal>]
     let SLEEP_MILLISECONDS = 2000
+    [<Literal>]
+    let NEXT_STEP_QUEUE = "remove_bad_words_queue"
 
 type Storage() =
     let redis = new RedisClient(Config.REDIS_HOST)
     member this.set key value = redis.Set(key, value)
+
+module Queue =
+    [<Literal>]
+    let private QUEUE_NAME = "remove_bad_words_queue"
+    [<Literal>]
+    let private EXCHANGE_NAME = "remove_bad_words_queue_exchange"
+    [<Literal>]
+    let private EXCHANGE_TYPE = "direct"
+    [<Literal>]
+    let private ROUTING_NAME = "remove_bad_words_queue_routing"
+
+    let publish msg =
+        let factory = new ConnectionFactory(HostName = Config.RABBIT_HOST)
+        let connection = factory.CreateConnection()
+        let channel = connection.CreateModel()
+        channel.QueueDeclare(QUEUE_NAME, false, false, false, null) |> ignore
+        channel.ExchangeDeclare(EXCHANGE_NAME, EXCHANGE_TYPE, false, false, null) |> ignore
+        channel.QueueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_NAME, null) |> ignore
+
+        channel.BasicPublish(EXCHANGE_NAME, ROUTING_NAME, null, (UTF8.bytes msg))
 
 module Lyrics =
     type Lyric = { 
@@ -30,13 +56,14 @@ module Lyrics =
     let serializeId lyric =
         sprintf "{\"id\":\"%s\"}" lyric.id
 
-    let generateId =
-        Guid.NewGuid().ToString()
+    let generateId lyric =
+        lyric.id <- Guid.NewGuid().ToString()
+        lyric
 
-    let store lyric =
-        lyric.id <- generateId
-        let storage = new Storage()
-        storage.set lyric.id (UTF8.bytes lyric.text)
+    let sendForProcessing lyric =
+        let msg = JsonConvert.SerializeObject lyric
+        printfn "%s" msg
+        Queue.publish msg
         lyric
 
     let parseFromRequest request = 
@@ -53,20 +80,19 @@ module Lyrics =
 
 let saveNote request = 
     try
-        request |> Lyrics.parseFromRequest |> Lyrics.validate |> Lyrics.store |> Lyrics.serializeId |> OK
+        request
+            |> Lyrics.parseFromRequest 
+            |> Lyrics.validate 
+            |> Lyrics.generateId 
+            |> Lyrics.sendForProcessing 
+            |> Lyrics.serializeId 
+            |> OK
     with
         Failure msg -> BAD_REQUEST msg
 
-let sleep milliseconds: WebPart =
-    fun (x : HttpContext) ->
-        async {
-            do! Async.Sleep milliseconds
-            return! OK "end sleep" x
-        }
-
 let app : WebPart =
     choose [
-        POST >=> path Config.SAVE_LYRIC_ROUTE >=> (sleep Config.SLEEP_MILLISECONDS) >=> request saveNote
+        POST >=> path Config.SAVE_LYRIC_ROUTE >=> request saveNote
         NOT_FOUND "Resource not found"
     ]
 
