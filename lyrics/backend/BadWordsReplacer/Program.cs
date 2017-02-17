@@ -1,7 +1,6 @@
 ﻿using System;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System.Text;
+using RabbitMQClient;
+using System.Collections.Generic;
 
 namespace BadWordsReplacer
 {
@@ -9,16 +8,33 @@ namespace BadWordsReplacer
     {
         static void Main(string[] args)
         {
-            Queue.SpawnConsumer((body) => {
-                var message = Encoding.UTF8.GetString(body);
-                Console.WriteLine(" [x] Received {0}", message);
-                Console.WriteLine(" [x] Done");
-
+            var replaceMap = createReplaceMap();
+            Queue.SpawnConsumer(Queue.REMOVE_BAD_WORDS_QUEUE, (message) => {
+                Queue.publishMessage(Queue.LOWERCASE_CAPS_WORDS_QUEUE, prepareString(replaceMap, message));
                 return 0;
             });
 
-            Console.WriteLine("Press [enter] to exit.");
-            Console.ReadLine();
+            Console.WriteLine("Bad words remover consuming.");
+        }
+
+        private static Dictionary<string, string> createReplaceMap()
+        {
+            var map = new Dictionary<string, string>();
+            map["javascript"] = "php";
+            map["c#"] = "F#";
+            map["python"] = "Go";
+
+            return map;
+        }
+
+        private static string prepareString(Dictionary<string, string> replaceMap, string str)
+        {
+            foreach (KeyValuePair<string, string> pair in replaceMap)
+            {
+                str = str.Replace(pair.Key, pair.Value);
+            }
+
+            return str;
         }
     }
 }
