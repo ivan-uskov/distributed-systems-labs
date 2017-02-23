@@ -17,11 +17,6 @@ class ShowLyricAction extends Action
         $storage = new StorageService();
         $lyric = $storage->get($lyricId);
 
-        if (!$lyric)
-        {
-            $this->redirect($this->getUrl(Routing::INDEX));
-        }
-
-        $this->render('show_lyric', ['noteText' => $lyric->getText()]);
+        $this->render('show_lyric', ['noteText' => $lyric ? $lyric->getText() : '']);
     }
 }

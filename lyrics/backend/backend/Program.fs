@@ -7,66 +7,42 @@ open Suave.Successful
 open Suave.RequestErrors
 open Newtonsoft.Json
 open System
-open ServiceStack.Redis
+open System.Text
+open RabbitMQClient
+open LyricModel
 
-module Config = 
-    [<Literal>]
-    let REDIS_HOST = "127.0.0.1:6379"
+module Config =
     [<Literal>]
     let SAVE_LYRIC_ROUTE = "/save-lyric"
     [<Literal>]
-    let SLEEP_MILLISECONDS = 2000
+    let NEXT_STEP_QUEUE = "remove_bad_words_queue"
 
-type Storage() =
-    let redis = new RedisClient(Config.REDIS_HOST)
-    member this.set key value = redis.Set(key, value)
+let sendForProcessing lyric =
+    let msg = JsonConvert.SerializeObject lyric
+    Queue.publishMessage(Queue.REMOVE_BAD_WORDS_QUEUE, msg)
+    lyric
 
-module Lyrics =
-    type Lyric = { 
-        text : string 
-        mutable id : string
-    }
-
-    let serializeId lyric =
-        sprintf "{\"id\":\"%s\"}" lyric.id
-
-    let generateId =
-        Guid.NewGuid().ToString()
-
-    let store lyric =
-        lyric.id <- generateId
-        let storage = new Storage()
-        storage.set lyric.id (UTF8.bytes lyric.text)
-        lyric
-
-    let parseFromRequest request = 
-        try
-            let fromJson n = JsonConvert.DeserializeObject<Lyric> n
-            request.rawForm |> UTF8.toString |> fromJson
-        with
-            _ -> failwith "Invalid post data"
-
-    let validate note =
-        if note.text = null then
-            failwith "Empty lyric text"
-        note
+let parseFromRequest request = 
+    try
+        request.rawForm |> UTF8.toString |> Lyric.deserializeJson
+    with
+        _ -> failwith "Invalid post data"
 
 let saveNote request = 
     try
-        request |> Lyrics.parseFromRequest |> Lyrics.validate |> Lyrics.store |> Lyrics.serializeId |> OK
+        request
+            |> parseFromRequest
+            |> Lyric.validate
+            |> Lyric.generateId
+            |> sendForProcessing
+            |> Lyric.serializeId
+            |> OK
     with
         Failure msg -> BAD_REQUEST msg
 
-let sleep milliseconds: WebPart =
-    fun (x : HttpContext) ->
-        async {
-            do! Async.Sleep milliseconds
-            return! OK "end sleep" x
-        }
-
 let app : WebPart =
     choose [
-        POST >=> path Config.SAVE_LYRIC_ROUTE >=> (sleep Config.SLEEP_MILLISECONDS) >=> request saveNote
+        POST >=> path Config.SAVE_LYRIC_ROUTE >=> request saveNote
         NOT_FOUND "Resource not found"
     ]
 
