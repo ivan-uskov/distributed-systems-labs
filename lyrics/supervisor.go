@@ -66,7 +66,10 @@ func main() {
 		"backend": 1,
 		"BadWordsReplacer": WORKERS_COUNT,
 		"CapsWordsToLowerCaser": WORKERS_COUNT,
-		"LyricSaver": WORKERS_COUNT,
+		"LyricValidator": WORKERS_COUNT,
+		"LyricSaver": 1,
+		"LyricStatistics": 1,
+		"LyricStorage": 1,
 	}
 
 	doWithWaitGroup(func(l Launcher) {

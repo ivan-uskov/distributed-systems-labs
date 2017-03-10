@@ -13,6 +13,8 @@ class Config
     public const TEMPLATE_EXT  = '.jade';
 
     public const SAVE_LYRIC_URL = 'http://localhost:8080/save-lyric';
+    public const GET_LYRIC_URL = 'http://localhost:8082/get-lyric';
+    public const GET_STATISTICS_URL = 'http://localhost:8081/statistics';
     public const REDIS_HOST = 'localhost';
     public const REDIS_PORT = 6479;
 }

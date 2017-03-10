@@ -7,10 +7,12 @@ class Routing
     public const INDEX = '/';
     public const SHOW_LYRIC = '/show-lyric/%lyricId%';
     public const SAVE_LYRIC = '/save-lyric';
+    public const STATISTICS = '/statistics';
 
     public const ROUTES = [
         self::SHOW_LYRIC => '\Actions\ShowLyricAction',
-        self::SAVE_LYRIC => '\Actions\SaveLyricAction'
+        self::SAVE_LYRIC => '\Actions\SaveLyricAction',
+        self::STATISTICS => '\Actions\StatisticsAction'
     ];
 
     public const REQUIREMENTS = [

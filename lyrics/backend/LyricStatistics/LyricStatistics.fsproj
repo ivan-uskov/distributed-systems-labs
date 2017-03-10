@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>f82e2bee-7fd6-45f4-b940-71a3ddad53ab</ProjectGuid>
+    <ProjectGuid>97ccf4bb-621a-4855-b2ae-44d283940da2</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>backend</RootNamespace>
-    <AssemblyName>backend</AssemblyName>
+    <RootNamespace>LyricStatistics</RootNamespace>
+    <AssemblyName>LyricStatistics</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
-    <Name>backend</Name>
+    <Name>LyricStatistics</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Debug\backend.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\LyricStatistics.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>bin\Release\backend.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\LyricStatistics.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
@@ -55,37 +55,32 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="backend.fs" />
+    <Compile Include="Statistics.fs" />
     <None Include="App.config" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
-      <HintPath>..\packages\FSharp.Core.4.0.0.1\lib\net40\FSharp.Core.dll</HintPath>
+      <HintPath>..\packages\FSharp.Core.4.1.0\lib\net40\FSharp.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Suave">
-      <HintPath>..\packages\Suave.2.0.2\lib\net40\Suave.dll</HintPath>
+      <HintPath>..\packages\Suave.2.0.4\lib\net40\Suave.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.ValueTuple">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LyricModel\LyricModel.fsproj">
       <Name>LyricModel</Name>
       <Project>{f9b9153a-b0b3-459f-9369-0ae2412f0938}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\LyricNotifications\LyricNotifications.fsproj">
-      <Name>LyricNotifications</Name>
-      <Project>{de2bf74d-3f33-4e74-a378-152e9446513d}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\RabbitMQClient\RabbitMQClient.csproj">

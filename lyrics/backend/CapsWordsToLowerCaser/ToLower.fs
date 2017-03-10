@@ -3,7 +3,7 @@ open System.Text.RegularExpressions
 
 let consumer message = 
     let msg = Regex.Replace(message, "([A-Z]+)", (fun (x : Match) -> x.Value.ToLower()))
-    Queue.publishMessage(Queue.STORE_LYRIC_QUEUE, msg)
+    Queue.publishMessage(Queue.LYRIC_VALIDATOR_QUEUE, msg)
     0
 
 [<EntryPoint>]

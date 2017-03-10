@@ -5,7 +5,7 @@ open Newtonsoft.Json
 
 module Lyric =
     type Lyric = {
-        text : string
+        mutable text : string
         mutable id : string
     }
 

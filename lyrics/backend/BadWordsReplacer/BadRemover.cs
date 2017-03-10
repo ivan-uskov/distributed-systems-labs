@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BadWordsReplacer
 {
-    class Program
+    class BadRemover
     {
         static void Main(string[] args)
         {
@@ -23,6 +23,7 @@ namespace BadWordsReplacer
             map["javascript"] = "php";
             map["c#"] = "F#";
             map["python"] = "Go";
+            map["goto"] = "";
 
             return map;
         }

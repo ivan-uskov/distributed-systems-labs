@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "backend", "backend\backend.fsproj", "{F82E2BEE-7FD6-45F4-B940-71A3DDAD53AB}"
 EndProject
@@ -13,9 +13,15 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RedisClient", "RedisClient\
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CapsWordsToLowerCaser", "CapsWordsToLowerCaser\CapsWordsToLowerCaser.fsproj", "{F5955960-D30C-4201-9DDC-EEC20D743331}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LyricSaver", "LyricSaver\LyricSaver.csproj", "{B0378DEF-8AD5-4280-A006-1BE8401DAA57}"
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LyricModel", "LyricModel\LyricModel.fsproj", "{F9B9153A-B0B3-459F-9369-0AE2412F0938}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LyricStatistics", "LyricStatistics\LyricStatistics.fsproj", "{97CCF4BB-621A-4855-B2AE-44D283940DA2}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LyricNotifications", "LyricNotifications\LyricNotifications.fsproj", "{DE2BF74D-3F33-4E74-A378-152E9446513D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LyricValidator", "LyricValidator\LyricValidator.csproj", "{D508BF6A-89AE-43C2-B68B-09A8B850B86A}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LyricStorage", "LyricStorage\LyricStorage.fsproj", "{06E245D4-1EA2-4949-9C1A-083DBF271604}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,14 +49,26 @@ Global
 		{F5955960-D30C-4201-9DDC-EEC20D743331}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5955960-D30C-4201-9DDC-EEC20D743331}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5955960-D30C-4201-9DDC-EEC20D743331}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B0378DEF-8AD5-4280-A006-1BE8401DAA57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0378DEF-8AD5-4280-A006-1BE8401DAA57}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0378DEF-8AD5-4280-A006-1BE8401DAA57}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0378DEF-8AD5-4280-A006-1BE8401DAA57}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F9B9153A-B0B3-459F-9369-0AE2412F0938}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9B9153A-B0B3-459F-9369-0AE2412F0938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9B9153A-B0B3-459F-9369-0AE2412F0938}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9B9153A-B0B3-459F-9369-0AE2412F0938}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97CCF4BB-621A-4855-B2AE-44D283940DA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97CCF4BB-621A-4855-B2AE-44D283940DA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97CCF4BB-621A-4855-B2AE-44D283940DA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97CCF4BB-621A-4855-B2AE-44D283940DA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE2BF74D-3F33-4E74-A378-152E9446513D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE2BF74D-3F33-4E74-A378-152E9446513D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE2BF74D-3F33-4E74-A378-152E9446513D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE2BF74D-3F33-4E74-A378-152E9446513D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D508BF6A-89AE-43C2-B68B-09A8B850B86A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D508BF6A-89AE-43C2-B68B-09A8B850B86A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D508BF6A-89AE-43C2-B68B-09A8B850B86A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D508BF6A-89AE-43C2-B68B-09A8B850B86A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06E245D4-1EA2-4949-9C1A-083DBF271604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06E245D4-1EA2-4949-9C1A-083DBF271604}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06E245D4-1EA2-4949-9C1A-083DBF271604}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06E245D4-1EA2-4949-9C1A-083DBF271604}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

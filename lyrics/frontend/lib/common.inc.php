@@ -22,4 +22,5 @@ require_once 'model/Lyric.class.php';
 require_once 'actions/IndexAction.class.php';
 require_once 'actions/ShowLyricAction.class.php';
 require_once 'actions/SaveLyricAction.class.php';
+require_once 'actions/StatisticsAction.class.php';
 

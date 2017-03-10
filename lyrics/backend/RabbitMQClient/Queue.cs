@@ -7,8 +7,10 @@ namespace RabbitMQClient
 {
     public class Queue
     {
+        public const string STATISTICS_NOTIFICATIONS_QUEUE = "statistics_notifications";
         public const string REMOVE_BAD_WORDS_QUEUE = "remove_bad_words";
         public const string LOWERCASE_CAPS_WORDS_QUEUE = "remove_caps_words";
+        public const string LYRIC_VALIDATOR_QUEUE = "lyric_validator";
         public const string STORE_LYRIC_QUEUE = "store_lyric_words";
 
         public static void SpawnConsumer(string queue, Func<string, int> fn)

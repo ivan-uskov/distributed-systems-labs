@@ -36,16 +36,42 @@ class StorageService
 
     public function get(string $id): ?Lyric
     {
-        if (class_exists('Redis'))
+        $client = new Client();
+        $response = $client->post(
+            Config::GET_LYRIC_URL,
+            [RequestOptions::JSON => ['id' => $id]]
+        );
+
+        $text = null;
+        if ($response->getStatusCode() == 200)
         {
-            $redis = new \Redis(Config::REDIS_HOST, Config::REDIS_PORT);
-            $text = $redis->get($id);
-        }
-        else
-        {
-            $text = exec('redis-cli get ' . escapeshellarg($id));
+            $text = $response->getBody()->getContents();
+            if (!empty($text))
+            {
+                $data = json_decode($text, true);
+                $text = isset($data['text']) ? $data['text'] : null;
+            }
         }
 
         return !empty($text) ? new Lyric($text, $id) : null;
+    }
+
+    public function getStatistics(): ?array
+    {
+        $client = new Client();
+        $response = $client->get(Config::GET_STATISTICS_URL);
+
+        $stats = null;
+        if ($response->getStatusCode() == 200)
+        {
+            $text = $response->getBody()->getContents();
+
+            if (!empty($text))
+            {
+                $stats = json_decode($text, true);
+            }
+        }
+
+        return $stats;
     }
 }
