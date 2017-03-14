@@ -6,6 +6,7 @@ use Config\Config;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use \Psr\Http\Message\ResponseInterface;
 
 use Model\Lyric;
 use Utils\ArrayUtils;
@@ -18,32 +19,26 @@ class StorageService
      */
     public function save(string $text): string
     {
-        $client = new Client();
-        $response = $client->post(
+        $response = $this->postRequest(
             Config::SAVE_LYRIC_URL,
             [RequestOptions::JSON => ['text' => $text]]
         );
 
-        if ($response->getStatusCode() != 200)
+        if ($response && $response->getStatusCode() == 200)
         {
-            return '';
+            $responseData = (array) json_decode((string) $response->getBody()->getContents(), true);
+            return (string) ArrayUtils::get($responseData, 'id');
         }
 
-        $responseData = (array) json_decode((string) $response->getBody()->getContents(), true);
-
-        return (string) ArrayUtils::get($responseData, 'id');
+        return '';
     }
 
     public function get(string $id): ?Lyric
     {
-        $client = new Client();
-        $response = $client->post(
-            Config::GET_LYRIC_URL,
-            [RequestOptions::JSON => ['id' => $id]]
-        );
-
+        $response = $this->postRequest(Config::GET_LYRIC_URL, [RequestOptions::JSON => ['id' => $id]]);
         $text = null;
-        if ($response->getStatusCode() == 200)
+
+        if ($response && $response->getStatusCode() == 200)
         {
             $text = $response->getBody()->getContents();
             if (!empty($text))
@@ -58,10 +53,9 @@ class StorageService
 
     public function getStatistics(): ?array
     {
-        $client = new Client();
-        $response = $client->get(Config::GET_STATISTICS_URL);
-
+        $response = $this->getRequest(Config::GET_STATISTICS_URL);
         $stats = null;
+
         if ($response->getStatusCode() == 200)
         {
             $text = $response->getBody()->getContents();
@@ -73,5 +67,34 @@ class StorageService
         }
 
         return $stats;
+    }
+
+    private function getRequest($url): ?ResponseInterface
+    {
+        return $this->createRequest(function(Client $client) use ($url) {
+            return $client->get($url);
+        });
+    }
+
+    private function postRequest($url, $urlParams): ?ResponseInterface
+    {
+        return $this->createRequest(function(Client $client) use ($url, $urlParams) {
+            return $client->post($url, $urlParams);
+        });
+    }
+
+    private function createRequest(callable $maker): ?ResponseInterface
+    {
+        $client = new Client();
+        try
+        {
+            $response = $maker($client);
+        }
+        catch (\Exception $e)
+        {
+            $response = null;
+        }
+
+        return $response;
     }
 }

@@ -10,7 +10,7 @@ open System
 open System.Text
 open RabbitMQClient
 open LyricModel
-open LyricNotifications.Events
+open LyricNotifications
 
 module Config =
     [<Literal>]
@@ -21,7 +21,7 @@ module Config =
 let sendForProcessing lyric =
     let msg = JsonConvert.SerializeObject lyric
     Queue.publishMessage(Queue.REMOVE_BAD_WORDS_QUEUE, msg)
-    LyricNotifications.Events.handleUploadInitialized lyric
+    Events.handleUploadInitialized lyric
     lyric
 
 let parseFromRequest request = 
