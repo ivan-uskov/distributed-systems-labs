@@ -43,10 +43,6 @@ func wrapBackendCommandName(cmd string) string {
 	return "backend/" + cmd + "/bin/release/" + cmd + ".exe"
 }
 
-func wrapFrontendCommandName(cmd string) string {
-	return "frontend/" + cmd
-}
-
 type CommandsList map[string]uint
 type CommandsWrapper func(string)string
 type AsyncCommand func()
@@ -68,10 +64,6 @@ func prepareCommands(commands CommandsList, nameWrapper CommandsWrapper) []Async
 func main() {
 	const WORKERS_COUNT = 1
 
-	frontendCommands := map[string]uint{
-		"run.bat": 1,
-	}
-
 	backendCommands := map[string]uint{
 		"backend": 1,
 		"LyricStatistics": 1,
@@ -82,18 +74,8 @@ func main() {
 	}
 
 	launchWithWaitGroup(func(l Launcher) {
-		for _, cmd := range prepareCommands(frontendCommands, wrapFrontendCommandName) {
-			l.launch(cmd);
-		}
-
 		for _, cmd := range prepareCommands(backendCommands, wrapBackendCommandName) {
 			l.launch(cmd);
 		}
-
-		l.launch(func() {
-			fmt.Println("1")
-			exec.Command("call", "frontend/run.bat").Run()
-			fmt.Println("2")
-		})
 	})
 }
