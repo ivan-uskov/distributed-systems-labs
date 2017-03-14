@@ -35,7 +35,7 @@ let consumer message =
 
 let spawnConsumerAsync =
     Async.Start(async {
-       Queue.SpawnConsumer(Queue.STATISTICS_NOTIFICATIONS_QUEUE, System.Func<string, int>(consumer))
+       Queue.SpawnConsumer(Queue.STATISTICS_NOTIFICATIONS_QUEUE, Func<string, int>(consumer))
     })
 
 let getStatistics request =
