@@ -13,12 +13,12 @@ namespace RabbitMQClient
         public const string LYRIC_VALIDATOR_QUEUE = "lyric_validator";
         public const string STORE_LYRIC_QUEUE = "store_lyric_words";
 
+        private static IConnection connection;
+
         public static void SpawnConsumer(string queue, Func<string, int> fn)
         {
             var queueName = queue + Config.QUEUE_SUFFIX;
-            var factory = new ConnectionFactory() { HostName = Config.RABBIT_HOST };
-            var connection = factory.CreateConnection();
-            var channel = connection.CreateModel();
+            var channel = getRabbitConnection().CreateModel();
 
             channel.QueueDeclare(
                 queue: queueName,
@@ -48,9 +48,7 @@ namespace RabbitMQClient
             var exchangeName = queue + Config.EXCHANGE_SUFFIX;
             var routingName = queue + Config.ROUTING_SUFFIX;
 
-            var factory = new ConnectionFactory() { HostName = Config.RABBIT_HOST };
-            var connection = factory.CreateConnection();
-            var channel = connection.CreateModel();
+            var channel = getRabbitConnection().CreateModel();
 
             channel.QueueDeclare(
                 queue: queueName,
@@ -63,6 +61,17 @@ namespace RabbitMQClient
             channel.ExchangeDeclare(exchangeName, Config.EXCHANGE_TYPE, false, false, null);
             channel.QueueBind(queueName, exchangeName, routingName, null);
             channel.BasicPublish(exchangeName, routingName, null, Encoding.UTF8.GetBytes(message));
+        }
+
+        private static IConnection getRabbitConnection()
+        {
+            if (connection == null)
+            {
+                var factory = new ConnectionFactory() { HostName = Config.RABBIT_HOST };
+                connection = factory.CreateConnection();
+            }
+
+            return connection;
         }
     }
 }

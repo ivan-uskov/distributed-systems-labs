@@ -9,6 +9,6 @@ send(N) ->
         httpc:request(post,
             {"http://localhost:8080/save-lyric", [],
             "application/json",
-            "{'text':'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.'}"
+            "{'text':'Hello goto learn javascript and python.'}"
         }, [], [])
     end, N).
