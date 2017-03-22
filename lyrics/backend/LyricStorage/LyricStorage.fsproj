@@ -93,6 +93,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
+      <Name>DataAccessLayer</Name>
+      <Project>{9456848e-c8d8-4391-9c8b-3663838bf851}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\LyricModel\LyricModel.fsproj">
       <Name>LyricModel</Name>
       <Project>{f9b9153a-b0b3-459f-9369-0ae2412f0938}</Project>
@@ -101,11 +106,6 @@
     <ProjectReference Include="..\RabbitMQClient\RabbitMQClient.csproj">
       <Name>RabbitMQClient</Name>
       <Project>{f2dfe91f-c4da-4c61-a2df-706b9e274899}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\RedisClient\RedisClient.fsproj">
-      <Name>RedisClient</Name>
-      <Project>{f42472f5-d589-4668-914a-a0777f1d4872}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

@@ -7,7 +7,7 @@ open System
 open System.Text
 open System.Threading
 open RabbitMQClient
-open RedisClient
+open DataAccessLayer
 open LyricModel
 
 module Config =
@@ -20,7 +20,7 @@ module Config =
 
 let consumer message =
     let lyric = Lyric.deserializeJson message
-    Storage.store lyric.id (Encoding.UTF8.GetBytes lyric.text)
+    Storage.store(lyric.id, (Encoding.UTF8.GetBytes lyric.text))
     1
 
 let spawnConsumerAsync =
@@ -58,7 +58,7 @@ let app : WebPart =
 
 [<EntryPoint>]
 let main argv =
-    
+    spawnConsumerAsync
 
     let conf = { defaultConfig with bindings = [ HttpBinding.createSimple HTTP Config.HOST Config.PORT ] }
     startWebServer conf app
