@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+    head
+        title Lyrics
+        meta(charset='utf-8', http-equiv='X-UA-Compatible', name='viewport', content='width=device-width, initial-scale=1.0')
+        link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
+        link(rel='stylesheet', href='/assets/material.min.css')
+        script(src='/assets/material.min.js', defer)
+    body
+        .page_container.mdl-layout.mdl-js-layout.mdl-layout--fixed-header
+            header.mdl-layout__header
+                .mdl-layout__header-row
+                    span.mdl-layout-title Lyric
+                    .mdl-layout-spacer
+                    nav.mdl-navigation.mdl-layout--large-screen-only
+                        a(href="/").mdl-navigation__link New Lyric
+                        a(href="/statistics").mdl-navigation__link Statistics
+            main.mdl-layout__content
+                .page-content.mdl-grid
+                    block content

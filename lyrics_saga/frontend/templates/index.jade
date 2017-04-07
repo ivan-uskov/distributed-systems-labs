@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    .mdl-cell.mdl-cell--4-col
+    .mdl-cell.mdl-cell--4-col
+        form(action= formAction, method='post')
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label.mdl-cell.mdl-cell--12-col
+                label(class='mdl-textfield__label') Your Lyric
+                textarea(name='lyric_text').mdl-textfield__input
+            .mdl-card__actions
+                button.mdl-button.mdl-button--raised.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect Post
+    .mdl-cell.mdl-cell--4-col
