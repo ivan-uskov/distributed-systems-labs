@@ -64,6 +64,8 @@ func prepareCommands(commands CommandsList, nameWrapper CommandsWrapper) []Async
 func main() {
 	const WORKERS_COUNT = 1
 
+	runSync("build.bat")
+
 	backendCommands := map[string]uint{
 		"backend": 1,
 		"LyricStatistics": 1,
@@ -76,7 +78,7 @@ func main() {
 
 	launchWithWaitGroup(func(l Launcher) {
 		for _, cmd := range prepareCommands(backendCommands, wrapBackendCommandName) {
-			l.launch(cmd);
+			l.launch(cmd)
 		}
 	})
 }

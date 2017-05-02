@@ -1,4 +1,3 @@
-cd %~dp0
+cd %~dp0\web
 
-cd web
-php -S localhost:8088
+call php -S localhost:8088

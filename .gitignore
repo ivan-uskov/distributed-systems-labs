@@ -246,3 +246,6 @@ ModelManifest.xml
 *.beam
 
 .idea
+
+bin
+obj
