@@ -1,2 +1,0 @@
-call nuget.exe restore -MsbuildPath "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\" backend/backend.sln 
-call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe" backend/backend.sln /t:Rebuild /p:Configuration=Release
